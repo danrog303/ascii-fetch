@@ -5,6 +5,10 @@ from urllib.parse import urlsplit, urljoin
 
 class CategoryScraper:
 
+    @staticmethod
+    def make_link_absolute(href):
+        return urljoin("https://asciiart.eu", href)
+
     def __init__(self, url):
         self.url = url
         self.html_doc = requests.get(url).text
@@ -17,9 +21,10 @@ class CategoryScraper:
     def get_categories(self):
         category_tags = self.soup.select("#directory .directory-columns a")
         if self.is_top_level():
-            categories = [(a["href"], a.text) for a in category_tags]
+            categories = [(self.make_link_absolute(a["href"]), a.text) for a in category_tags]
         else:
-            categories = [(a["href"], a.text[:-1]) for a in category_tags if a.text.endswith("@")]
+            categories = [(self.make_link_absolute(a["href"]), a.text[:-1])
+                          for a in category_tags if a.text.endswith("@")]
         return categories
 
     def get_arts(self):
@@ -27,5 +32,5 @@ class CategoryScraper:
             return []
         else:
             a_tags = self.soup.select("#directory .directory-columns a")
-            arts = [(a["href"], a.text) for a in a_tags if not a.text.endswith("@")]
+            arts = [(self.make_link_absolute(a["href"]), a.text) for a in a_tags if not a.text.endswith("@")]
             return arts

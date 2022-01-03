@@ -1,6 +1,8 @@
 import os
 import sys
 from asciifetch.scrapers.category_scraper import CategoryScraper
+from asciifetch.scrapers.art_scraper import ArtScraper
+
 
 class SimpleUI:
 
@@ -8,10 +10,10 @@ class SimpleUI:
         self.console_args = console_args
 
     def print_ui(self):
-        reqpath = self.console_args.requested_path
+        requested_path = self.console_args.requested_path
         executable_name = os.path.basename(sys.argv[0])
 
-        if len(reqpath) == 0:
+        if len(requested_path) == 0:
             print("Printing top level categories:")
             categories = CategoryScraper("https://asciiart.eu/").get_categories()
             for category_number, category in enumerate(categories):
