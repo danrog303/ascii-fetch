@@ -9,6 +9,12 @@ def main():
         epilog="https://github.com/danrog303/ascii-fetch"
     )
     parser.add_argument(nargs='*', dest="requested_path")
+    parser.add_argument(
+        "--color", dest="color", metavar="color_name",
+        help="Color of displayed ascii arts",
+        choices=['black', 'blue', 'cyan', 'green', 'magenta', 'red', 'white', 'yellow'],
+        default="reset"
+    )
     args = parser.parse_args()
     SimpleUI(args).print_ui()
 
