@@ -2,7 +2,8 @@ import signal
 
 
 def keyboard_interrupt_handler(sig, frame):
-    print("Keyboard interrupt caught. Exiting...")
+    import sys
+    print("Keyboard interrupt caught. Exiting...", file=sys.stderr)
     exit(2)
 
 
