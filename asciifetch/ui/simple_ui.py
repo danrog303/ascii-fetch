@@ -4,7 +4,7 @@ from asciifetch.scrapers.scraper_factory import ScraperFactory
 from asciifetch.scrapers.art_scraper import ArtScraper
 from asciifetch.scrapers.category_scraper import CategoryScraper
 from asciifetch.ui.color_print import cprint
-from colorama import Style
+from colorama import Style, Fore
 
 
 class SimpleUI:
@@ -20,14 +20,17 @@ class SimpleUI:
         print(f"\nRun {Style.BRIGHT}{executable_name} \"https://link-to-the-category\"{Style.RESET_ALL} to select specific category.")
 
     @staticmethod
-    def print_images(images, number=-1):
+    def print_images(images, color, number=-1):
         executable_name = os.path.basename(sys.argv[0])
+        color_code = getattr(Fore, color.upper())
         if number == -1:
             cprint("Printing all ASCII arts in specified category", bold=True)
             for index, ascii_art in enumerate(images):
                 print(f"----------#{index}----------")
-                print(ascii_art + "\n")
+                cprint(ascii_art + "\n", color=color_code)
             print(f"\nRun {Style.BRIGHT}{executable_name} \"https://link-to-the-category\" N{Style.RESET_ALL} to print only N-th image.")
+        else:
+            cprint(images[number] + "\n", color=color_code)
 
     def print_ui(self):
         requested_path = list(self.console_args.requested_path)
@@ -39,12 +42,11 @@ class SimpleUI:
         elif len(requested_path) == 1:
             scraper = ScraperFactory(requested_path[0]).get_scraper()
             if isinstance(scraper, ArtScraper):
-                self.print_images(scraper.get_ascii_arts())
+                self.print_images(scraper.get_ascii_arts(), self.console_args.color)
             elif isinstance(scraper, CategoryScraper):
                 cprint("Printing subcategories:", bold=True)
                 self.print_category_tree(scraper.get_categories())
         elif len(requested_path) == 2:
             scraper = ScraperFactory(requested_path[0]).get_scraper()
             requested_index = int(requested_path[1])
-            image = scraper.get_ascii_arts()[requested_index]
-            print(image)
+            self.print_images(scraper.get_ascii_arts(), self.console_args.color, requested_index)
