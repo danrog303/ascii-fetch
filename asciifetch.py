@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import argparse
 from asciifetch.ui.simple_ui import SimpleUI
 
