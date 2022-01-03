@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-import asciifetch.ui.keyboard_interrupt_handle
+import asciifetch.errors.keyboard_interrupt_handler
 from asciifetch.ui.simple_ui import SimpleUI
-from asciifetch.ui.error_handler import error_handler
+from asciifetch.errors.error_handler import error_handler
 import argparse
 
 
