@@ -1,6 +1,5 @@
 import argparse
-from asciifetch.scrapers.category_scraper import CategoryScraper
-from asciifetch.scrapers.art_scraper import ArtScraper
+from asciifetch.ui.simple_ui import SimpleUI
 
 
 def main():
@@ -10,6 +9,7 @@ def main():
     )
     parser.add_argument(nargs='*', dest="requested_path")
     args = parser.parse_args()
+    SimpleUI(args).print_ui()
 
 
 if __name__ == '__main__':
