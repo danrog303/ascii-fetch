@@ -15,6 +15,11 @@ def main():
         choices=['black', 'blue', 'cyan', 'green', 'magenta', 'red', 'white', 'yellow'],
         default="reset"
     )
+    parser.add_argument(
+        "--bold", dest="bold",
+        help="Should ascii art be bolded?",
+        action="store_true", default=False
+    )
     args = parser.parse_args()
     SimpleUI(args).print_ui()
 
