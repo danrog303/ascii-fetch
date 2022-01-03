@@ -31,5 +31,8 @@ Print 10th ascii-art in Cats subcategory and make it blue
 `asciifetch.py "https://www.asciiart.eu/animals/cats" 10 --color blue`  
 (supported colors are: black, blue, cyan, green, magenta, red, white, yellow)
 
+Print 10th ascii-art in Cats subcategory and make it bold  
+`asciifetch.py "https://www.asciiart.eu/animals/cats" 10 --bold`  
+
 ## Technologies used
 This script has been written in Python 3.10.
