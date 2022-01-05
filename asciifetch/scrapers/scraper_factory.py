@@ -10,7 +10,9 @@ class ScraperFactory:
         self.soup = BeautifulSoup(requests.get(url).text, "html.parser")
 
     def get_scraper(self):
-        if len(self.soup.select(".asciiarts pre[class]")) == 0:
+        if len(self.soup.select(".asciiarts pre[class]")) > 0:
+            return ArtScraper(self.soup)
+        elif len(self.soup.select("#directory .directory-columns a")) > 0:
             return CategoryScraper(self.soup)
         else:
-            return ArtScraper(self.soup)
+            return None

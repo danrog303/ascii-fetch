@@ -1,5 +1,6 @@
 import os
 import sys
+from urllib.parse import urlparse
 from asciifetch.scrapers.scraper_factory import ScraperFactory
 from asciifetch.scrapers.art_scraper import ArtScraper
 from asciifetch.scrapers.category_scraper import CategoryScraper
@@ -35,6 +36,11 @@ class SimpleUI:
     def print_ui(self):
         requested_path = list(self.console_args.requested_path)
 
+        if urlparse(requested_path[0]).netloc not in ["asciiart.eu", "www.asciiart.eu"]:
+            print(f"{requested_path[0]} isn't a asciiart.eu URL link!", file=sys.stderr)
+            print("Please check --help for usage manual.", file=sys.stderr)
+            exit(3)
+
         if len(requested_path) == 0:
             cprint("Printing top level categories:", bold=True)
             main_categories = ScraperFactory("https://asciiart.eu/").get_scraper().get_categories()
@@ -44,9 +50,19 @@ class SimpleUI:
             if isinstance(scraper, ArtScraper):
                 self.print_images(scraper.get_ascii_arts(), self.console_args.color, self.console_args.bold)
             elif isinstance(scraper, CategoryScraper):
-                cprint("Printing subcategories:", bold=True)
-                self.print_category_tree(scraper.get_categories())
+                cprint("Printing available categories:", bold=True)
+                cats = scraper.get_categories()
+                self.print_category_tree(cats)
+            elif scraper is None:
+                print("(no data detected - are you sure you passed correct link?")
         elif len(requested_path) == 2:
             scraper = ScraperFactory(requested_path[0]).get_scraper()
-            requested_index = int(requested_path[1])
-            self.print_images(scraper.get_ascii_arts(), self.console_args.color, self.console_args.bold, requested_index)
+            if scraper is ArtScraper:
+                requested_index = int(requested_path[1])
+                self.print_images(scraper.get_ascii_arts(), self.console_args.color, self.console_args.bold, requested_index)
+            else:
+                print("(no data detected - are you sure you passed correct asciiart.eu link?", file=sys.stderr)
+        else:
+            print("Unrecognized amount of arguments.", file=sys.stderr)
+            print("Please check --help for usage manual.", file=sys.stderr)
+            exit(4)

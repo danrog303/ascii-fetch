@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-import argparse
+import asciifetch.errors.keyboard_interrupt_handler
 from asciifetch.ui.simple_ui import SimpleUI
+from asciifetch.errors.error_handler import error_handler
+import argparse
 
 
+@error_handler
 def main():
     parser = argparse.ArgumentParser(
         description="Downloads and displays ASCII images in your terminal.",
