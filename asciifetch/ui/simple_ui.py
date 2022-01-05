@@ -36,7 +36,7 @@ class SimpleUI:
     def print_ui(self):
         requested_path = list(self.console_args.requested_path)
 
-        if urlparse(requested_path[0]).netloc not in ["asciiart.eu", "www.asciiart.eu"]:
+        if len(requested_path) > 0 and urlparse(requested_path[0]).netloc not in ["asciiart.eu", "www.asciiart.eu"]:
             print(f"{requested_path[0]} isn't a asciiart.eu URL link!", file=sys.stderr)
             print("Please check --help for usage manual.", file=sys.stderr)
             exit(3)
