@@ -44,9 +44,18 @@ class SimpleUI:
             if isinstance(scraper, ArtScraper):
                 self.print_images(scraper.get_ascii_arts(), self.console_args.color, self.console_args.bold)
             elif isinstance(scraper, CategoryScraper):
-                cprint("Printing subcategories:", bold=True)
-                self.print_category_tree(scraper.get_categories())
+                cprint("Printing available categories:", bold=True)
+                cats = scraper.get_categories()
+                self.print_category_tree(cats)
+            elif scraper is None:
+                print("(no data detected - are you sure you passed correct asciiart.eu link?")
         elif len(requested_path) == 2:
             scraper = ScraperFactory(requested_path[0]).get_scraper()
-            requested_index = int(requested_path[1])
-            self.print_images(scraper.get_ascii_arts(), self.console_args.color, self.console_args.bold, requested_index)
+            if scraper is ArtScraper:
+                requested_index = int(requested_path[1])
+                self.print_images(scraper.get_ascii_arts(), self.console_args.color, self.console_args.bold, requested_index)
+            else:
+                print("(no data detected - are you sure you passed correct asciiart.eu link?", file=sys.stderr)
+        else:
+            print("Unrecognized amount of arguments.", file=sys.stderr)
+            print("Please check --help for usage manual.", file=sys.stderr)
