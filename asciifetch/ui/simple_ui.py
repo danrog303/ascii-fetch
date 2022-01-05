@@ -27,11 +27,15 @@ class SimpleUI:
         if number == -1:
             cprint("Printing all ASCII arts in specified category", bold=True)
             for index, ascii_art in enumerate(images):
-                print(f"----------#{index}----------")
+                print(f"----------#{index + 1}----------")
                 cprint(ascii_art + "\n", color=color_code, bold=bold)
             print(f"\nRun {Style.BRIGHT}{executable_name} \"https://link-to-the-category\" N{Style.RESET_ALL} to print only N-th image.")
         else:
-            cprint(images[number] + "\n", color=color_code, bold=bold)
+            if number >= len(images) or number < 1:
+                print(f"There is no image with {number} number.", file=sys.stderr)
+                exit(5)
+            else:
+                cprint(images[number - 1] + "\n", color=color_code, bold=bold)
 
     def print_ui(self):
         requested_path = list(self.console_args.requested_path)
@@ -57,9 +61,13 @@ class SimpleUI:
                 print("(no data detected - are you sure you passed correct link?")
         elif len(requested_path) == 2:
             scraper = ScraperFactory(requested_path[0]).get_scraper()
-            if scraper is ArtScraper:
-                requested_index = int(requested_path[1])
-                self.print_images(scraper.get_ascii_arts(), self.console_args.color, self.console_args.bold, requested_index)
+            if isinstance(scraper, ArtScraper):
+                try:
+                    requested_index = int(requested_path[1])
+                    self.print_images(scraper.get_ascii_arts(), self.console_args.color, self.console_args.bold, requested_index)
+                except ValueError:
+                    print(f"{requested_path[1]} is not a valid image index.", file=sys.stderr)
+                    exit(5)
             else:
                 print("(no data detected - are you sure you passed correct asciiart.eu link?", file=sys.stderr)
         else:
