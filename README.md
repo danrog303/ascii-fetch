@@ -34,5 +34,9 @@ Print 10th ascii-art in Cats subcategory and make it blue
 Print 10th ascii-art in Cats subcategory and make it bold  
 `asciifetch.py "https://www.asciiart.eu/animals/cats" 10 --bold`  
 
+## Screenshots
+<img alt="Screenshot: category listing" src="https://user-images.githubusercontent.com/32397526/148364767-cf02cd5b-3adf-4430-880f-381dc828fda3.png" width="600">
+<img alt="Screenshot: deer asci-art" src="https://user-images.githubusercontent.com/32397526/148364764-cc184174-9af7-41aa-84e9-c13dba75c84a.png" width="600">
+
 ## Technologies used
 This script has been written in Python 3.10.
